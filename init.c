@@ -18,7 +18,7 @@ int main()
 
 	posix_spawn(0, "/etc/rc", 0, &attr,
 		((char *[]){ "rc", 0 }),
-		((char *[]){ "rc", 0 }));
+		((char *[]){ 0 }));
 
 	for (;;) wait(0);
 }
