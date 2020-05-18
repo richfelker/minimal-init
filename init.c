@@ -1,0 +1,24 @@
+#include <signal.h>
+#include <unistd.h>
+#include <spawn.h>
+#include <sys/wait.h>
+
+int main()
+{
+	if (getpid() != 1) return 1;
+
+	sigset_t set, old;
+	sigfillset(&set);
+	sigprocmask(SIG_BLOCK, &set, &old);
+
+	posix_spawnattr_t attr;
+	posix_spawnattr_init(&attr);
+	posix_spawnattr_setsigmask(&attr, &set);
+	posix_spawnattr_setflags(&attr, POSIX_SPAWN_SETSID);
+
+	posix_spawn(0, "/etc/rc", 0, &attr,
+		((char *[]){ "rc", 0 }),
+		((char *[]){ "rc", 0 }));
+
+	for (;;) wait(0);
+}
