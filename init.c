@@ -13,7 +13,7 @@ int main()
 
 	posix_spawnattr_t attr;
 	posix_spawnattr_init(&attr);
-	posix_spawnattr_setsigmask(&attr, &set);
+	posix_spawnattr_setsigmask(&attr, &old);
 	posix_spawnattr_setflags(&attr, POSIX_SPAWN_SETSID);
 
 	posix_spawn(0, "/etc/rc", 0, &attr,
